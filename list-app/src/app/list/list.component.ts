@@ -8,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
       <button (click)="toggleGoodList()">{{ showGoodList ? 'Hide List' : 'Show List'}}</button>
       <div *ngIf="showGoodList">
         <ul>
-          <li *ngFor="let items of goodList">
-            {{items}}
+          <li *ngFor="let items of goodList; let i = index">
+            {{items}} <button (click)="deleteGoodItem(i)">X</button>
           </li>
         </ul>
+        <form (submit)="addGoodItem(goodItem.value)" (submit)="goodItem.value=''">
+          <label>Add Good Item: </label>
+          <input type="text" #goodItem />
+        </form>
       </div>
     <span>
     <span>
@@ -19,10 +23,14 @@ import { Component, OnInit } from '@angular/core';
       <button (click)="toggleBadList()">{{ showBadList ? 'Hide List' : 'Show List'}}</button>
       <div *ngIf="showBadList">
         <ul>
-          <li *ngFor="let badItems of badList">
-            {{badItems}}
+          <li *ngFor="let badItems of badList; let i = index">
+            {{badItems}} <button (click)="deleteBadItem(i)">X</button>
           </li>
         </ul>
+        <form (submit)="addBadItem(badItem.value)" (submit)="badItem.value=''">
+          <label>Add Bad Item: </label>
+          <input type="text" #badItem />
+        </form>
       </div>
     <span>
     `,
@@ -64,5 +72,21 @@ export class ListComponent  {
     else {
       this.showBadList = true
     }
+  }
+
+  addGoodItem(value){
+    this.goodList.push(value)
+  }
+
+  addBadItem(value){
+    this.badList.push(value)
+  }
+
+  deleteGoodItem(index){
+    this.goodList.splice(index,1)
+  }
+
+  deleteBadItem(index){
+    this.badList.splice(index,1)
   }
 }
